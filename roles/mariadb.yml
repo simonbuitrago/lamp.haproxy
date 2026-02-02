@@ -1,0 +1,9 @@
+- name: Start MariaDB
+  docker_container:
+    name: mariadb
+    image: mariadb:11
+    env:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
