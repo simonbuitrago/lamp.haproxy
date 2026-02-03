@@ -1,0 +1,25 @@
+- name: Deploy Webserver
+  hosts: web:web_db
+  become: true
+  tasks:
+    - name: Create web directory
+      file:
+        path: /opt/web
+        state: directory
+
+    - name: Copy index.php
+      copy:
+        src: ../files/index.php
+        dest: /opt/web/index.php
+
+    - name: Copy health.php
+      copy:
+        src: ../files/health.php
+        dest: /opt/web/health.php
+
+    - name: Start Web container
+      docker_container:
+        name: web
+        image: php:8.2-apache
+        volumes:
+          - /opt/web:/var/www/html

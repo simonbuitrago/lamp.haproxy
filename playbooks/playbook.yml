@@ -1,0 +1,4 @@
+- import_playbook: docker.yml
+- import_playbook: mariadb.yml
+- import_playbook: web.yml
+- import_playbook: haproxy.yml
