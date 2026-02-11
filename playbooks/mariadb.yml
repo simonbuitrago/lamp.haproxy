@@ -3,15 +3,17 @@
   become: true
   vars_files:
     - ../vault.yml
-
   tasks:
     - name: Run MariaDB container
       docker_container:
         name: mariadb
         image: mariadb:11
         restart_policy: always
+        ports:
+          - "3306:3306"
         env:
           MYSQL_ROOT_PASSWORD: "{{ db_root_password }}"
           MYSQL_DATABASE: "{{ db_name }}"
           MYSQL_USER: "{{ db_user }}"
           MYSQL_PASSWORD: "{{ db_user_password }}"
+        command: --bind-address=0.0.0.0

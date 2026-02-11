@@ -1,22 +1,11 @@
 - name: Deploy HAProxy
   hosts: haproxy
   become: true
-
   tasks:
-    - name: Create config directory
-      file:
-        path: /opt
-        state: directory
-
     - name: Copy HAProxy config
       copy:
         src: ../files/haproxy.cfg
-        dest: /opt/haproxy.cfg
-
-    - name: Remove old HAProxy container if exists
-      docker_container:
-        name: haproxy
-        state: absent
+        dest: /etc/haproxy.cfg  # Zielpfad auf dem Host
 
     - name: Start HAProxy container
       docker_container:
@@ -26,4 +15,4 @@
         ports:
           - "80:80"
         volumes:
-          - /opt/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+          - /etc/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro

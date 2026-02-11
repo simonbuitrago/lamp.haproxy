@@ -14,12 +14,17 @@
 
     - name: Copy health.php
       copy:
-        src: ../files/health.php
+        content: "<?php http_response_code(200); ?>"
         dest: /opt/web/health.php
 
-    - name: Start Web container
+    - name: Start Web container with MySQL support
       docker_container:
         name: web
         image: php:8.2-apache
+        restart_policy: always
+        ports:
+          - "80:80"
         volumes:
           - /opt/web:/var/www/html
+        command: >
+          sh -c "docker-php-ext-install mysqli && apache2-foreground"

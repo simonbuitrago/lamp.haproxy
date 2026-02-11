@@ -1,0 +1,21 @@
+- name: Azure Netzwerk auf 10.0.1.0 umstellen
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Resource Group erstellen
+      azure_rm_resourcegroup:
+        name: AzureNetz
+        location: switzerlandnorth
+
+    - name: VNet erstellen
+      azure_rm_virtualnetwork:
+        resource_group: AzureNetz
+        name: projektVNet
+        address_prefixes: "10.0.0.0/16"
+
+    - name: Subnetz erstellen (Passend fuer deine Wunsch-IPs)
+      azure_rm_subnet:
+        resource_group: AzureNetz
+        name: projektSubnet
+        address_prefix: "10.0.1.0/24" # Jetzt passen 10.0.1.4, .5, .6!
+        virtual_network_name: projektVNet
